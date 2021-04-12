@@ -1,6 +1,6 @@
 # Pipeline
 
-功能：
+Pipeline 功能：
 
 - 支持根据模型批量创建数据库表
 - 支持自定义任务流程图
@@ -9,11 +9,24 @@
 - 支持自定义脚本参数，当流程走到某个顶点时，自动读填充参数并执行脚本
 - 支持自动跳转到下一个顶点
 - 支持查看 pipeline 历史轨迹
-- 支持 WEB 图形展示
+
+支持 WEB 图形展示:
+
+- 使用 Flask 微框架
+- 使用 Jinja2 模板技术
+- 使用 JQuery 发起 AJAX 异步调用
+- 使用 Apache ECharts 图表组件（百度开源，Apache 孵化）
 
 # 效果截图
 
+![show_1](https://user-images.githubusercontent.com/40815364/114376638-64102700-9bb8-11eb-80f8-53e913e4f12d.png)
+![show_2](https://user-images.githubusercontent.com/40815364/114376689-74c09d00-9bb8-11eb-87d2-1a63908c4e8e.png)
+![show_3](https://user-images.githubusercontent.com/40815364/114376697-768a6080-9bb8-11eb-9c2e-75eb47c84809.png)
+![show_4](https://user-images.githubusercontent.com/40815364/114376713-78ecba80-9bb8-11eb-9bea-17a174350a92.png)
+
 # 数据库模型
+
+![database](https://user-images.githubusercontent.com/40815364/114376363-24493f80-9bb8-11eb-9c94-853d042ddfc2.png)
 
 # 使用示例
 
@@ -47,7 +60,7 @@ bd = add_edge(g, b, d)
 
 ## 启动一条 pipeline
 
-详细见：`pipeline.app`
+详细见：[pipeline.app](https://github.com/Monster0303/Pipeline/blob/main/pipeline/app.py)
 
 ## 启动 WEB 界面
 
