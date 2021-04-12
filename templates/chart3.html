@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 jquery -->
+    <script src={{url_for('static', filename="js/jquery-2.1.1.min.js")}}></script>
+    <!-- 引入 echarts.js -->
+    <script src={{url_for('static', filename="js/echarts.min.js")}}></script>
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // JQuery Ajax调用
+        $.get('/dag/3', function (data) {
+            console.log(data); myChart.hideLoading();
+            // 指定图表的配置项和数据
+            option = {
+                title: {
+                    text: data.title
+                },
+                tooltip: { trigger: 'item' },
+                animationDurationUpdate: 1500,
+                animationEasingUpdate: 'quinticInOut',
+                series: [
+                    {
+                        type: 'graph',
+                        layout: 'none',
+                        symbolSize: 50,
+                        roam: true,
+                        label: {
+                            normal: {
+                                show: true
+                            }
+                        },
+                        edgeSymbol: ['circle', 'arrow'],
+                        edgeSymbolSize: [4, 10],
+                        edgeLabel: {
+                            normal: {
+                                textStyle: {
+                                    fontSize: 20
+                                }
+                            }
+                        },
+                        data: data.data,
+                        // links: [],
+                        links: data.links,
+                        lineStyle: {
+                            show: false,
+                            normal: {
+                                opacity: 0.9,
+                                width: 2,
+                                curveness: 0
+                            }
+                        },
+                        tooltip: { // 提示框，鼠标放在节点或边上试一试
+                            // 使用函数重新定义显示文字的格式，回调送入3个参数
+                            formatter: function (params, ticket, callback) {
+                                if (params.dataType === 'edge') // 连线没有值返回空串
+                                    return '';
+                                if (params.value)
+                                    return params.name + '<br />' + params.value
+                                return params.name
+                            }
+                            //, backgroundColor: "#000000"
+                        }
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表
+            myChart.setOption(option);
+            // 遍历数据
+            echarts.util.map(data.data, function (item, dataIndex) {
+                console.log(item);
+                console.log(dataIndex);
+            });
+            // 鼠标事件，click点击
+            myChart.on('mouseover', function (item) {
+                console.log(item);
+                if (item.value) {
+                    console.log(item.value)
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

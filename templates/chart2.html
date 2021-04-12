@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+    <!-- 引入 jquery -->
+    <script src={{url_for('static', filename="js/jquery-2.1.1.min.js")}}></script>
+    <!-- 引入 echarts.js -->
+    <script src={{url_for('static', filename="js/echarts.min.js")}}></script>
+</head>
+
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main" style="width: 600px;height:400px;"></div>
+    <script type="text/javascript">
+        // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+
+        // JQuery Ajax调用
+        $.get('/dag/2', function (data) {
+            console.log(data);
+            // 指定图表的配置项和数据
+            option = {
+                title: {
+                    text: 'DAG 简单示例 Echarts'
+                },
+                tooltip: {},
+                animationDurationUpdate: 1500,
+                animationEasingUpdate: 'quinticInOut',
+                series: [
+                    {
+                        type: 'graph',
+                        layout: 'none',
+                        symbolSize: 50,
+                        roam: true,
+                        label: {
+                            normal: {
+                                show: true
+                            }
+                        },
+                        edgeSymbol: ['circle', 'arrow'],
+                        edgeSymbolSize: [4, 10],
+                        edgeLabel: {
+                            normal: {
+                                textStyle: {
+                                    fontSize: 20
+                                }
+                            }
+                        }, data: data.data, // links: [],
+                        links: data.links,
+                        lineStyle: {
+                            normal: {
+                                opacity: 0.9,
+                                width: 2,
+                                curveness: 0
+                            }
+                        },
+                        tooltip: {  // 提示框，鼠标放在节点或边上试一试
+                            formatter: "{b}<br />{c}", // {b} 表示类目，{c} 表示数值
+                            backgroundColor: "#000000" //背景色
+                        }
+                    }
+                ]
+            };
+            // 使用刚指定的配置项和数据显示图表
+            myChart.setOption(option);
+        })
+    </script>
+</body>
+
+</html>
